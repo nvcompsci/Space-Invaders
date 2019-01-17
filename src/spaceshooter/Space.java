@@ -18,18 +18,11 @@ import java.util.TimerTask;
  */
 public class Space extends JPanel {
 
-    final int marginX;
-    final int marginY;
-    private Hero hero;
-    private Enemy enemy;
     private Timer timer;
         
     public Space() {
         super();
-        marginX = 10;
-        marginY = 10;
-        hero = new Hero(600, 480, Color.MAGENTA, 20, "Dude");
-        enemy = new Enemy(50, 50, Color.RED, 20, "Enemy");
+        
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
         
@@ -38,98 +31,47 @@ public class Space extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);           
             
-        g.setColor(Color.YELLOW);
-        drawStars(g);
-        
-        hero.draw(g);
-        enemy.draw(g);
-        //g.dispose();     
     }
     
     private class ScheduleTask extends TimerTask {
     
         @Override
         public void run() {
-            wallCollissions(hero);
-            wallCollissions(enemy);
-            heroVsEnemy();
-            hero.update();
-            enemy.update();            
+                       
             repaint();
         }
     }
     
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            hero.setDX(1);
+            
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            hero.setDX(-1);
+            
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            hero.setDY(-1);
+            
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            hero.setDY(1);
+            
         }
     }
     
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-            hero.setDX(0);
+            
         if (e.getKeyCode() == KeyEvent.VK_LEFT)
-            hero.setDX(0);
+            
         if (e.getKeyCode() == KeyEvent.VK_UP)
-            hero.setDY(0);
+            
         if (e.getKeyCode() == KeyEvent.VK_DOWN)
-            hero.setDY(0);
-    }
+            return;
+    }   
     
-    private void drawStars(Graphics g) {
-        int x = 0;
-        int y = 0;
-        for (int i = 0; i < 1000; i++) {
-          y = (int) (Math.random()*960);
-          x = (int) (Math.random()*1200);
-          Color curr = g.getColor();
-          if (x % 2 == 0) 
-              g.setColor(curr.brighter());
-          else
-              g.setColor(curr.darker());
-          g.fillOval(x, y, 3, 3);
-          
-          System.out.println(x+" "+y);
-          //if ( x > 1100 || y > 860) {
-           //  break;
-          //}
-        }
-    }
     
-    /**
-     * Handles collisions between the hero and enemy
-     */
-    private void heroVsEnemy() {
-        if (hero.getX()+ 40 >= enemy.getX() && hero.getY() + 40 >= enemy.getY()) {
-            if (hero.getX() <= enemy.getX() + 40 && hero.getY() <= enemy.getY() + 40) {
-                hero.kill(enemy);
-                enemy.setX(-2000);
-            }
-        }
-    }
     
-    /**
-     * Makes the hero and enemy bounce off walls
-     */
-    private void wallCollissions(Character c){
-        //walls = this.getWidth(), this.getHeight(), 0
-        //where the hero is = hero.getX(), hero.getY()
-        if (c.getX() <= 0 || c.getX() + 20 >= this.getWidth() ) {
-            c.reverseX();
-        }
-        if (c.getY() <= 0 || c.getY() + 20 >= this.getHeight() ) {
-            c.reverseY();
-        }
-    }
+    
+    
 }
