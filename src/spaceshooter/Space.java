@@ -18,11 +18,13 @@ import java.util.TimerTask;
  */
 public class Space extends JPanel {
 
+    private Player jeff;
+    
     private Timer timer;
         
     public Space() {
         super();
-        
+        jeff = new Player(1200 / 2, 960 - 100);
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
         
@@ -32,7 +34,9 @@ public class Space extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.setBackground(Color.BLACK);           
-            
+        jeff.draw(g);
+        g.setColor(Color.BLUE);
+        g.fillOval(50,50, 100, 50);
     }
     
     private class ScheduleTask extends TimerTask {
