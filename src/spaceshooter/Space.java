@@ -43,35 +43,39 @@ public class Space extends JPanel {
     
         @Override
         public void run() {
-                       
+            jeff.update();
             repaint();
         }
     }
     
     public void keyPressed(KeyEvent e) {
+        final int SPEED = 9;
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            
+            jeff.setDx(SPEED);
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            
+            jeff.setDx(-SPEED);
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            
+            jeff.setDy(-SPEED);
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            
+            jeff.setDy(SPEED);
         }
     }
     
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+            jeff.setDx(0);
             
         if (e.getKeyCode() == KeyEvent.VK_LEFT)
+            jeff.setDx(0);
             
         if (e.getKeyCode() == KeyEvent.VK_UP)
+            jeff.setDy(0);
             
         if (e.getKeyCode() == KeyEvent.VK_DOWN)
-            return;
+            jeff.setDy(0);
     }   
     
     

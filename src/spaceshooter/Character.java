@@ -36,8 +36,8 @@ public class Character {
         color = Color.RED;
         this.x = x;
         this.y = y;
-        dx = 3;
-        dy = 3;
+        dx = -3;
+        dy = -3;
     }
     
     //Methods
@@ -46,5 +46,79 @@ public class Character {
         g.fillOval(x, y, size, size);
     }
     
+    public void update() {
+        x += dx;
+        y += dy;
+    }
+    
+    public void moveTo() {
+        
+    }
+    
+    public void shoot() {
+        
+    }
+    
+    public void die() {
+        
+    }
+    
+    public void kill() {
+        
+    }
+    
+    public void respawn() {
+        
+    }
+    
     //Getters and Setters
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getDx() {
+        return dx;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+    
 }
