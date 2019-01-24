@@ -19,15 +19,21 @@ import java.util.TimerTask;
 public class Space extends JPanel {
 
     private Player jeff;
+    private Alien[] aliens;
     
     private Timer timer;
         
     public Space() {
         super();
         jeff = new Player(1200 / 2, 960 - 100);
+        aliens = new Alien[20];
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
-        
+        spawnAliens();
+    }
+    
+    private void spawnAliens() {
+        aliens[0] = new Alien(200, 50);
     }
     
     @Override
@@ -35,6 +41,7 @@ public class Space extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.BLACK);           
         jeff.draw(g);
+        aliens[0].draw(g);
         g.setColor(Color.BLUE);
         g.fillOval(50,50, 100, 50);
     }
