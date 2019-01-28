@@ -20,20 +20,23 @@ public class Space extends JPanel {
 
     private Player jeff;
     private Alien[] aliens;
-    
+    private Missile[] missiles;
     private Timer timer;
         
     public Space() {
         super();
         jeff = new Player(1200 / 2, 960 - 100);
         aliens = new Alien[20];
+        missiles = new Missile[5];
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
         spawnAliens();
     }
     
     private void spawnAliens() {
-        aliens[0] = new Alien(200, 50);
+        for(int i = 0; i <20; i++){
+        aliens[i] = new Alien(25 + i * 50, 50);
+        }
     }
     
     @Override
@@ -41,9 +44,15 @@ public class Space extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.BLACK);           
         jeff.draw(g);
-        aliens[0].draw(g);
-        g.setColor(Color.BLUE);
-        g.fillOval(50,50, 100, 50);
+        
+        for (Alien alien : aliens) {
+            alien.draw(g);
+        }
+        for (Missile missile : missiles) {
+            if (missile != null)
+                missile.draw(g);
+        }
+        
     }
     
     private class ScheduleTask extends TimerTask {
@@ -83,6 +92,8 @@ public class Space extends JPanel {
             
         if (e.getKeyCode() == KeyEvent.VK_DOWN)
             jeff.setDy(0);
+        if (e.getKeyCode() == KeyEvent.VK_SPACE)
+            missiles[0] = new Missile(jeff.getX(), jeff.getY());
     }   
     
     
