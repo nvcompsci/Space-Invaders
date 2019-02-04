@@ -8,6 +8,7 @@ package spaceshooter;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,14 +21,14 @@ public class Space extends JPanel {
 
     private Player jeff;
     private Alien[] aliens;
-    private Missile[] missiles;
+    private ArrayList<Missile> missiles;
     private Timer timer;
         
     public Space() {
         super();
         jeff = new Player(1200 / 2, 960 - 100);
         aliens = new Alien[20];
-        missiles = new Missile[5];
+        missiles = new ArrayList<>();
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
         spawnAliens();
@@ -49,8 +50,9 @@ public class Space extends JPanel {
             alien.draw(g);
         }
         for (Missile missile : missiles) {
-            if (missile != null)
+            if (missile != null) {
                 missile.draw(g);
+            }
         }
         
     }
@@ -60,6 +62,9 @@ public class Space extends JPanel {
         @Override
         public void run() {
             jeff.update();
+            for (Missile missile : missiles) {
+                missile.update();
+            }
             repaint();
         }
     }
@@ -93,7 +98,8 @@ public class Space extends JPanel {
         if (e.getKeyCode() == KeyEvent.VK_DOWN)
             jeff.setDy(0);
         if (e.getKeyCode() == KeyEvent.VK_SPACE)
-            missiles[0] = new Missile(jeff.getX(), jeff.getY());
+            missiles.add( new Missile(jeff.getX(), jeff.getY()) );
+            //missiles[0] = new Missile(jeff.getX(), jeff.getY());
     }   
     
     
