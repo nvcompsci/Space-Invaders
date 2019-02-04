@@ -21,6 +21,7 @@ public class Missile extends Character {
     //Constructor
     public Missile(int x, int y) {
         super(x, y);
+        super.setDy(-10);
         ii = new ImageIcon("missile.gif");
         img = ii.getImage();
     }
