@@ -13,24 +13,21 @@ import javax.swing.ImageIcon;
  *
  * @author jword
  */
-public class Player extends Character {
-    
+public class Missile extends Character {
     //Fields
-
     private ImageIcon ii;
     private Image img;
     
-
     //Constructor
-    public Player(int x, int y) {
+    public Missile(int x, int y) {
         super(x, y);
-        ImageIcon ii = new ImageIcon("spaceship.png");
+        super.setDy(-10);
+        ii = new ImageIcon("missile.gif");
         img = ii.getImage();
     }
     
-    @Override
+    //Methods
     public void draw(Graphics g) {
         g.drawImage(img, super.getX(), super.getY(), super.getSize(), super.getSize(), null);
     }
-    
 }

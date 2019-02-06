@@ -36,8 +36,8 @@ public class Character {
         color = Color.RED;
         this.x = x;
         this.y = y;
-        dx = -3;
-        dy = -3;
+        dx = 0;
+        dy = 0;
     }
     
     //Methods
@@ -60,7 +60,8 @@ public class Character {
     }
     
     public void die() {
-        
+        x = -500;
+        y = -500;
     }
     
     public void kill() {

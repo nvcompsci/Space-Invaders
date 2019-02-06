@@ -5,10 +5,31 @@
  */
 package spaceshooter;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author jword
  */
-public class Alien {
+public class Alien extends Character {
+    //Fields
+    private ImageIcon ii;
+    private Image img;
     
+    //Constructor
+    public Alien(int x, int y) {
+        super(x, y);
+        ii = new ImageIcon("alien.png");
+        img = ii.getImage();
+        super.setDy(1);
+        super.setDx(5);
+    }
+    
+    //Methods
+    public void draw(Graphics g) {
+        g.drawImage(img, super.getX(), super.getY(), super.getSize(), super.getSize(), null);
+    }
 }

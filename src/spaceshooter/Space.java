@@ -6,8 +6,10 @@
 package spaceshooter;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,15 +21,25 @@ import java.util.TimerTask;
 public class Space extends JPanel {
 
     private Player jeff;
-    
+    private Alien[] aliens;
+    private ArrayList<Missile> missiles;
     private Timer timer;
+    private boolean gameover;
         
     public Space() {
         super();
         jeff = new Player(1200 / 2, 960 - 100);
+        aliens = new Alien[20];
+        missiles = new ArrayList<>();
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
-        
+        spawnAliens();
+    }
+    
+    private void spawnAliens() {
+        for(int i = 0; i <20; i++){
+        aliens[i] = new Alien(25 + i * 50, 50);
+        }
     }
     
     @Override
@@ -35,8 +47,21 @@ public class Space extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.BLACK);           
         jeff.draw(g);
-        g.setColor(Color.BLUE);
-        g.fillOval(50,50, 100, 50);
+        
+        for (Alien alien : aliens) {
+            alien.draw(g);
+        }
+        for (Missile missile : missiles) {
+            if (missile != null) {
+                missile.draw(g);
+            }
+        }
+        if(gameover == true) {
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 100));
+            g.setColor(Color.white);
+            g.drawString("Game over", 325, 400);
+}
+
     }
     
     private class ScheduleTask extends TimerTask {
@@ -44,9 +69,42 @@ public class Space extends JPanel {
         @Override
         public void run() {
             jeff.update();
+            for (Missile missile : missiles) {
+                    missile.update();
+            } 
+            
+            for (Alien alien : aliens) {
+                wallCollisions(alien);
+                alien.update();
+                if (alien.getY() >= 700)
+                    gameover = true;
+                for (Missile missile : missiles) {
+                    if (alien.getX() == missile.getX() 
+                            || alien.getY() == missile.getY()) {
+                        System.out.println("killed missile");
+                        alien.die();
+                        missile.die();
+                    }
+                }      
+            }
             repaint();
         }
     }
+    private void collisionDetection(Character obj1, Character obj2) {
+        if (obj1.getX()+ obj1.getSize() >= obj2.getX() && obj1.getY() + obj1.getSize() >= obj2.getY()) {
+            if (obj1.getX() <= obj2.getX() + obj2.getSize() && obj1.getY() <= obj2.getY() + obj2.getSize()) {
+                obj1.die();
+                obj2.die();
+            }
+        }
+    }
+    private void wallCollisions(Character c) {
+       
+        if (c.getX() <= 0 || c.getX() + 30 >= this.getWidth()){
+            c.setDx(-c.getDx());
+        }
+    }
+
     
     public void keyPressed(KeyEvent e) {
         final int SPEED = 9;
@@ -76,6 +134,9 @@ public class Space extends JPanel {
             
         if (e.getKeyCode() == KeyEvent.VK_DOWN)
             jeff.setDy(0);
+        if (e.getKeyCode() == KeyEvent.VK_SPACE)
+            missiles.add( new Missile(jeff.getX(), jeff.getY()) );
+            //missiles[0] = new Missile(jeff.getX(), jeff.getY());
     }   
     
     
