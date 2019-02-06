@@ -7,6 +7,10 @@ package spaceshooter;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -20,6 +24,9 @@ public class Character {
     private int y;
     private int dx;
     private int dy;
+    private ImageIcon ii;
+    private Image img;
+    private Rectangle bound;
     
     //Constructor
     public Character() {
@@ -31,24 +38,33 @@ public class Character {
         dy = 3;
     }
     
-    public Character(int x, int y) {
+    public Character(int x, int y, String imgSrc) {
         size = 50;
         color = Color.RED;
         this.x = x;
         this.y = y;
         dx = 0;
         dy = 0;
+        ii = new ImageIcon(imgSrc);
+        img = ii.getImage();
+        bound = new Rectangle(this.x, this.y, this.size, this.size);
+    }
+
+    public Rectangle getBound() {
+        return bound;
     }
     
     //Methods
     public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillOval(x, y, size, size);
+        g.drawImage(img, x, y, size, size, null);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.draw(bound);
     }
     
     public void update() {
         x += dx;
         y += dy;
+        bound = new Rectangle(this.x, this.y, this.size, this.size);
     }
     
     public void moveTo() {

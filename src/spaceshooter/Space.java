@@ -8,6 +8,9 @@ package spaceshooter;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -79,23 +82,16 @@ public class Space extends JPanel {
                 if (alien.getY() >= 700)
                     gameover = true;
                 for (Missile missile : missiles) {
-                    if (alien.getX() == missile.getX() 
-                            || alien.getY() == missile.getY()) {
-                        System.out.println("killed missile");
-                        alien.die();
-                        missile.die();
-                    }
-                }      
+                    collisionDetection(alien, missile);
+                }                      
             }
             repaint();
         }
     }
     private void collisionDetection(Character obj1, Character obj2) {
-        if (obj1.getX()+ obj1.getSize() >= obj2.getX() && obj1.getY() + obj1.getSize() >= obj2.getY()) {
-            if (obj1.getX() <= obj2.getX() + obj2.getSize() && obj1.getY() <= obj2.getY() + obj2.getSize()) {
-                obj1.die();
-                obj2.die();
-            }
+        if (obj1.getBound().intersects(obj2.getBound())) {
+            obj1.die();
+            obj2.die();
         }
     }
     private void wallCollisions(Character c) {
