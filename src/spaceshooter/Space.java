@@ -6,6 +6,7 @@
 package spaceshooter;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Space extends JPanel {
     private Alien[] aliens;
     private ArrayList<Missile> missiles;
     private Timer timer;
+    private boolean gameover;
         
     public Space() {
         super();
@@ -54,7 +56,12 @@ public class Space extends JPanel {
                 missile.draw(g);
             }
         }
-        
+        if(gameover == true) {
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 100));
+            g.setColor(Color.white);
+            g.drawString("Game over", 325, 400);
+}
+
     }
     
     private class ScheduleTask extends TimerTask {
@@ -63,11 +70,41 @@ public class Space extends JPanel {
         public void run() {
             jeff.update();
             for (Missile missile : missiles) {
-                missile.update();
+                    missile.update();
+            } 
+            
+            for (Alien alien : aliens) {
+                wallCollisions(alien);
+                alien.update();
+                if (alien.getY() >= 700)
+                    gameover = true;
+                for (Missile missile : missiles) {
+                    if (alien.getX() == missile.getX() 
+                            || alien.getY() == missile.getY()) {
+                        System.out.println("killed missile");
+                        alien.die();
+                        missile.die();
+                    }
+                }      
             }
             repaint();
         }
     }
+    private void collisionDetection(Character obj1, Character obj2) {
+        if (obj1.getX()+ obj1.getSize() >= obj2.getX() && obj1.getY() + obj1.getSize() >= obj2.getY()) {
+            if (obj1.getX() <= obj2.getX() + obj2.getSize() && obj1.getY() <= obj2.getY() + obj2.getSize()) {
+                obj1.die();
+                obj2.die();
+            }
+        }
+    }
+    private void wallCollisions(Character c) {
+       
+        if (c.getX() <= 0 || c.getX() + 30 >= this.getWidth()){
+            c.setDx(-c.getDx());
+        }
+    }
+
     
     public void keyPressed(KeyEvent e) {
         final int SPEED = 9;

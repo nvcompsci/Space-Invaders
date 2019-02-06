@@ -60,7 +60,8 @@ public class Character {
     }
     
     public void die() {
-        
+        x = -500;
+        y = -500;
     }
     
     public void kill() {
