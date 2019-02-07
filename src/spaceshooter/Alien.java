@@ -21,15 +21,8 @@ public class Alien extends Character {
     
     //Constructor
     public Alien(int x, int y) {
-        super(x, y);
-        ii = new ImageIcon("alien.png");
-        img = ii.getImage();
+        super(x, y, "alien.png");
         super.setDy(1);
         super.setDx(5);
-    }
-    
-    //Methods
-    public void draw(Graphics g) {
-        g.drawImage(img, super.getX(), super.getY(), super.getSize(), super.getSize(), null);
-    }
+    }    
 }

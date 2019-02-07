@@ -8,6 +8,9 @@ package spaceshooter;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -25,6 +28,7 @@ public class Space extends JPanel {
     private ArrayList<Missile> missiles;
     private Timer timer;
     private boolean gameover;
+    private long lastTime;
         
     public Space() {
         super();
@@ -32,7 +36,8 @@ public class Space extends JPanel {
         aliens = new Alien[20];
         missiles = new ArrayList<>();
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
+        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/60);
+        lastTime = System.currentTimeMillis();
         spawnAliens();
     }
     
@@ -45,6 +50,11 @@ public class Space extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        long dT = System.currentTimeMillis() - lastTime;
+        lastTime = System.currentTimeMillis();
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+        g.setColor(Color.red);
+        g.drawString(String.format("dT: %s   FPS: %d", dT, 1000 / dT), 50, 50);
         this.setBackground(Color.BLACK);           
         jeff.draw(g);
         
@@ -79,23 +89,16 @@ public class Space extends JPanel {
                 if (alien.getY() >= 700)
                     gameover = true;
                 for (Missile missile : missiles) {
-                    if (alien.getX() == missile.getX() 
-                            || alien.getY() == missile.getY()) {
-                        System.out.println("killed missile");
-                        alien.die();
-                        missile.die();
-                    }
-                }      
+                    collisionDetection(alien, missile);
+                }                      
             }
             repaint();
         }
     }
     private void collisionDetection(Character obj1, Character obj2) {
-        if (obj1.getX()+ obj1.getSize() >= obj2.getX() && obj1.getY() + obj1.getSize() >= obj2.getY()) {
-            if (obj1.getX() <= obj2.getX() + obj2.getSize() && obj1.getY() <= obj2.getY() + obj2.getSize()) {
-                obj1.die();
-                obj2.die();
-            }
+        if (obj1.getBound().intersects(obj2.getBound())) {
+            obj1.die();
+            obj2.die();
         }
     }
     private void wallCollisions(Character c) {
