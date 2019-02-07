@@ -28,6 +28,7 @@ public class Space extends JPanel {
     private ArrayList<Missile> missiles;
     private Timer timer;
     private boolean gameover;
+    private long lastTime;
         
     public Space() {
         super();
@@ -35,7 +36,8 @@ public class Space extends JPanel {
         aliens = new Alien[20];
         missiles = new ArrayList<>();
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/20);
+        timer.scheduleAtFixedRate(new ScheduleTask(), 100, 1000/60);
+        lastTime = System.currentTimeMillis();
         spawnAliens();
     }
     
@@ -48,6 +50,11 @@ public class Space extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        long dT = System.currentTimeMillis() - lastTime;
+        lastTime = System.currentTimeMillis();
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+        g.setColor(Color.red);
+        g.drawString(String.format("dT: %s   FPS: %d", dT, 1000 / dT), 50, 50);
         this.setBackground(Color.BLACK);           
         jeff.draw(g);
         
