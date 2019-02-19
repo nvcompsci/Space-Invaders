@@ -21,7 +21,7 @@ public class Alien extends Character {
     
     //Constructor
     public Alien(int x, int y) {
-        super(x, y, "alien.png");
+        super(x, y, "/images/alien.png");
         super.setDy(1);
         super.setDx(5);
     }    

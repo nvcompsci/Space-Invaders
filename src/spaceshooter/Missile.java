@@ -11,8 +11,8 @@ package spaceshooter;
 public class Missile extends Character {
     
     //Constructor
-    public Missile(int x, int y) {
-        super(x, y, "missile.gif");
+    public Missile(Player player) {
+        super(player.getX(),player.getY(), "/images/missile.gif");
         super.setDy(-10);
     }
 }

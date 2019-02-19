@@ -45,7 +45,7 @@ public class Character {
         this.y = y;
         dx = 0;
         dy = 0;
-        ii = new ImageIcon(imgSrc);
+        ii = new ImageIcon(getClass().getResource(imgSrc));
         img = ii.getImage();
         bound = new Rectangle(this.x, this.y, this.size, this.size);
     }

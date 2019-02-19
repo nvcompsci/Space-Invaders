@@ -22,6 +22,6 @@ public class Player extends Character {
 
     //Constructor
     public Player(int x, int y) {
-        super(x, y, "spaceship.png");
+        super(x, y, "/images/spaceship.png");
     }    
 }
